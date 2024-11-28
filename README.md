@@ -20,8 +20,7 @@ Si une triche est détectée, la note du groupe sera de 0.
 
 L'aspect technique du projet sera testé automatiquement, il faudra donc bien respecter les normes RESTFULL, les formats des entités ainsi que les règles de gestion des données.
 
-Cahier des charges
-Créer une API RESTFULL sur un projet libre.
+daCréer une API RESTFULL sur un projet libre.
 
 Critères:
 
