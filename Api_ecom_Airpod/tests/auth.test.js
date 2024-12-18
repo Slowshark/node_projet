@@ -58,3 +58,4 @@ describe('Auth Endpoints', () => {
     expect(res.body).toHaveProperty('message', 'Email déjà utilisé');
   });
 });
+    
