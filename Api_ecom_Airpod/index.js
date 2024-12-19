@@ -9,6 +9,7 @@ const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const promotionRoutes = require('./routes/promotionRoutes'); // Ajouter cette ligne
 
 app.use(express.json());
 
@@ -18,6 +19,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/promotions', promotionRoutes); // Ajouter cette ligne
 
 // Gestion des erreurs 404
 app.use((req, res, next) => {
