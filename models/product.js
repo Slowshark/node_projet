@@ -70,3 +70,4 @@ module.exports = (sequelize, DataTypes) => {
 
   return Product;
 };
+//test1
