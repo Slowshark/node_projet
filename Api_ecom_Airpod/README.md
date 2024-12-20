@@ -1,8 +1,8 @@
-# E-commerce AirPods API
+# E-commerce Telephone/ear phone API
 
 ## Description
 
-API RESTful pour un e-commerce spécialisé dans la vente d'AirPods. Permet la gestion des produits, catégories, utilisateurs, paniers et commandes avec authentification JWT.
+API RESTful pour un e-commerce spécialisé dans la vente de Telephone et ear phone. Permet la gestion des produits, catégories, utilisateurs, paniers et commandes avec authentification JWT.
 
 ## Technologies Utilisées
 
