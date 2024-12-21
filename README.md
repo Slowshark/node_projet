@@ -12,9 +12,9 @@ API E-com Tel&ecout est une API e-commerce dédiée à la gestion des téléphon
 
 ## Fonctionnalités
 
-- **Starter:** Yvanthivong Ung
-- **Sécurité:** Antoine PERICHON
-- **Base de données:** Thushan Malinga RATHNAYAKA MUDIYANSELAGE
+- **Starter:** Yvanthivong Ung  (Slowshark)
+- **Sécurité:** Antoine PERICHON (BixTheOne)
+- **Base de données:** Thushan Malinga RATHNAYAKA MUDIYANSELAGE (vindigo44) 
 
 ## Technologies Utilisées
 
