@@ -1,3 +1,4 @@
+// migrations/20241218184240-create-order.js
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -10,7 +11,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       date_commande: {
         type: Sequelize.DATE
@@ -20,6 +26,25 @@ module.exports = {
       },
       total: {
         type: Sequelize.DECIMAL
+      },
+      shipping_address: {
+        type: Sequelize.TEXT
+      },
+      payment_method_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Payment_Methods',
+          key: 'id'
+        },
+        onDelete: 'SET NULL'
+      },
+      shipping_status_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Shipping_Status',
+          key: 'id'
+        },
+        onDelete: 'SET NULL'
       },
       createdAt: {
         allowNull: false,

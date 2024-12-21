@@ -1,12 +1,13 @@
-// models/cart.js
+// models/cartitem.js
 module.exports = (sequelize, DataTypes) => {
-  const Cart = sequelize.define('Cart', {
-    userId: DataTypes.INTEGER,
-    date_creation: DataTypes.DATE,
+  const CartItem = sequelize.define('CartItem', {
+    cartId: DataTypes.INTEGER,
+    productId: DataTypes.INTEGER,
+    quantité: DataTypes.INTEGER,
   }, {});
-  Cart.associate = function(models) {
-    Cart.belongsTo(models.User, { foreignKey: 'userId' });
-    Cart.hasMany(models.CartItem, { foreignKey: 'cartId' });
+  CartItem.associate = function(models) {
+    CartItem.belongsTo(models.Cart, { foreignKey: 'cartId' });
+    CartItem.belongsTo(models.Product, { foreignKey: 'productId' });
   };
-  return Cart;
+  return CartItem;
 };

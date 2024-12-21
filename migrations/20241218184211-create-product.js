@@ -1,3 +1,4 @@
+// migrations/20241218184211-create-product.js
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -25,7 +26,15 @@ module.exports = {
         type: Sequelize.STRING
       },
       categorieId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
+      },
+      date_release: { // Ajouté par la migration 20250101002000
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,

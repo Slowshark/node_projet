@@ -1,3 +1,4 @@
+// migrations/20241218184255-create-cart.js
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -10,7 +11,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE'
       },
       date_creation: {
         type: Sequelize.DATE

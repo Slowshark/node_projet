@@ -66,4 +66,3 @@ module.exports = {
     await queryInterface.dropTable('Product_Reviews');
   }
 };
-
