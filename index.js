@@ -1,19 +1,18 @@
 'use strict';
-const express = require('express');
-const dotenv = require('dotenv');
+const express = require('express'); // Framework web pour Node.js
+const app = express(); // Initialise l'application Express
+const dotenv = require('dotenv'); // Charge les variables d'environnement
 dotenv.config();
 
-const cors = require('cors');
-const rateLimiter = require('./middlewares/rateLimiter');
-const errorHandler = require('./middlewares/errorHandler');
-const logger = require('./utils/logger');
-const morgan = require('morgan');
-const fs = require('fs');
-const https = require('https');
+const cors = require('cors'); // Middleware pour la gestion des CORS
+const rateLimiter = require('./middlewares/rateLimiter'); // Limite le nombre de requêtes
+const errorHandler = require('./middlewares/errorHandler'); // Middleware pour la gestion des erreurs
+const logger = require('./utils/logger'); // Logger personnalisé pour enregistrer les événements
+const morgan = require('morgan'); // Middleware de logging des requêtes HTTP
+const helmet = require('helmet'); // Sécurise les en-têtes HTTP
+const xss = require('xss-clean'); // Protège contre les attaques XSS
 
-const app = express();
-
-// Importer les routes
+// Importation des routes
 const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
@@ -24,28 +23,31 @@ const promotionRoutes = require('./routes/promotionRoutes');
 // Configuration de CORS
 const corsOptions = {
   origin: 'https://votre-domaine.com', // Remplacez par votre domaine frontend
-  optionsSuccessStatus: 200,
+  optionsSuccessStatus: 200, // Réponse pour les requêtes OPTIONS
   credentials: true, // Si vous utilisez des cookies
 };
-
-app.use(cors(corsOptions));
-
-// Middleware pour parser JSON
-app.use(express.json());
+app.use(cors(corsOptions)); // Applique les paramètres CORS
 
 // Appliquer le rate limiter à toutes les requêtes
 app.use(rateLimiter);
 
 // Configurer morgan pour utiliser winston
-app.use(
-  morgan('combined', {
-    stream: {
-      write: (message) => logger.info(message.trim()),
-    },
-  })
-);
+app.use(morgan('combined', {
+  stream: {
+    write: (message) => logger.info(message.trim()),
+  },
+}));
 
-// Ajouter les routes
+// Ajout de Helmet pour sécuriser les en-têtes HTTP
+app.use(helmet());
+
+// Protection contre les attaques XSS
+app.use(xss());
+
+// Limitation de la taille des requêtes JSON
+app.use(express.json({ limit: '10kb' }));
+
+// Définition des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
@@ -61,35 +63,21 @@ app.use((req, res, next) => {
 // Gestion des erreurs globales
 app.use(errorHandler);
 
-// Démarrer le serveur en fonction de l'environnement
-const PORT = process.env.PORT || 3000;
-
+// Rediriger HTTP vers HTTPS en production
 if (process.env.NODE_ENV === 'production') {
-  // Vérifier si les chemins des certificats sont définis
-  const sslKeyPath = process.env.SSL_KEY_PATH;
-  const sslCertPath = process.env.SSL_CERT_PATH;
-
-  if (sslKeyPath && sslCertPath) {
-    const options = {
-      key: fs.readFileSync(sslKeyPath),
-      cert: fs.readFileSync(sslCertPath),
-    };
-
-    https.createServer(options, app).listen(PORT, () => {
-      console.log(`Serveur HTTPS démarré sur le port ${PORT}`);
-    });
-  } else {
-    console.warn('Certificats SSL non fournis. Démarrage du serveur en HTTP.');
-    app.listen(PORT, () => {
-      console.log(`Serveur HTTP démarré sur le port ${PORT}`);
-    });
-  }
-} else {
-  // En développement, utiliser HTTP
-  app.listen(PORT, () => {
-    console.log(`Serveur HTTP démarré sur le port ${PORT}`);
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(`https://${req.headers.host}${req.url}`);
+    }
+    next();
   });
 }
+
+// Démarrage du serveur
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Serveur démarré sur le port ${PORT}`);
+});
 
 // Exporter l'app pour les tests
 module.exports = app;
