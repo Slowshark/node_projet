@@ -11,3 +11,4 @@ app.use('/products', productRoutes);
 // Démarrer le serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//test1
