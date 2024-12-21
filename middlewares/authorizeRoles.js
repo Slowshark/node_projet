@@ -1,0 +1,13 @@
+// middlewares/authorizeRoles.js
+'use strict';
+
+const authorizeRoles = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({ message: 'Accès refusé.' });
+    }
+    next();
+  };
+};
+
+module.exports = authorizeRoles;
