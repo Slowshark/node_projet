@@ -73,3 +73,4 @@ exports.deleteCategory = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur', error });
   }
 };
+// test 1
