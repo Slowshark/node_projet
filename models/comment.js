@@ -10,4 +10,4 @@ module.exports = (sequelize, DataTypes) => {
   
     return Comment;
   };
-//test1
+//test2
